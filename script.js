@@ -14,4 +14,3 @@ function Gameboard() {
 
     return { getBoard };
 }
-
