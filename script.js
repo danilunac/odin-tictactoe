@@ -6,7 +6,7 @@ function Gameboard() {
     for (let i = 0; i < rows; i++) {
         board[i] = [];
         for (let j = 0; j < columns; j++) {
-            board[i].push(null)
+            board[i].push(Cell())
         }
     }
 
@@ -14,3 +14,17 @@ function Gameboard() {
 
     return { getBoard };
 }
+
+function Cell() {
+    let value = null;
+
+    const addToken = (player) => {
+        value = player;
+    }
+
+    const getValue = () => value;
+
+    return { addToken, getValue };
+}
+
+const prueba = Gameboard();
