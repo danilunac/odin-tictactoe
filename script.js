@@ -12,19 +12,33 @@ function Gameboard() {
 
     const getBoard = () => board;
 
-    return { getBoard };
+    const markCell = (row, column, player) => {
+      if (board[row][column].getValue() !== null) return;
+      board[row][column].setMark(player);
+    }
+
+    const printBoard = () => {
+      const boardWithCellValues = board.map((row) =>
+        row.map((cell) => cell.getValue())
+      );
+      console.log(boardWithCellValues);
+    }
+    
+    return { getBoard, markCell, printBoard };
 }
 
 function Cell() {
     let value = null;
 
-    const addToken = (player) => {
+    const setMark = (player) => {
         value = player;
     }
 
     const getValue = () => value;
 
-    return { addToken, getValue };
+    return { setMark, getValue };
 }
 
-const prueba = Gameboard();
+const game = Gameboard();
+
+game.printBoard();
