@@ -1,31 +1,37 @@
-function Gameboard() {
-    const rows = 3;
-    const columns = 3;
-    const board = [];
+const gameboard = (function () {
 
-    for (let i = 0; i < rows; i++) {
-        board[i] = [];
-        for (let j = 0; j < columns; j++) {
-            board[i].push(Cell())
+    function Gameboard() {
+        const rows = 3;
+        const columns = 3;
+        const board = [];
+
+        for (let i = 0; i < rows; i++) {
+            board[i] = [];
+            for (let j = 0; j < columns; j++) {
+                board[i].push(Cell());
+            }
         }
+
+        const getBoard = () => board;
+
+        const markCell = (row, column, player) => {
+            if (board[row][column].getValue() !== null) return;
+            board[row][column].setMark(player);
+        };
+
+        const printBoard = () => {
+            const boardWithCellValues = board.map((row) =>
+                row.map((cell) => cell.getValue())
+            );
+            console.log(boardWithCellValues);
+        };
+        
+        return { getBoard, markCell, printBoard };
     }
 
-    const getBoard = () => board;
+    return Gameboard();
 
-    const markCell = (row, column, player) => {
-      if (board[row][column].getValue() !== null) return;
-      board[row][column].setMark(player);
-    }
-
-    const printBoard = () => {
-      const boardWithCellValues = board.map((row) =>
-        row.map((cell) => cell.getValue())
-      );
-      console.log(boardWithCellValues);
-    }
-    
-    return { getBoard, markCell, printBoard };
-}
+})();
 
 function Cell() {
     let value = null;
@@ -38,7 +44,3 @@ function Cell() {
 
     return { setMark, getValue };
 }
-
-const game = Gameboard();
-
-game.printBoard();
