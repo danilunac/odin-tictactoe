@@ -15,8 +15,9 @@ const gameboard = (function () {
         const getBoard = () => board;
 
         const markCell = (row, column, player) => {
-            if (board[row][column].getValue() !== null) return;
+            if (board[row][column].getValue() !== null) return false;
             board[row][column].setMark(player);
+            return true;
         };
 
         const printBoard = () => {
@@ -47,4 +48,36 @@ function Cell() {
 
 function Player(name, mark) {
     return { name, mark };
+}
+
+function GameController() {
+    const playerOne = Player('Dani', 'X');
+    const playerTwo = Player('Paola', 'O');
+
+    const players = [playerOne, playerTwo];
+
+    let activePlayer = players[0];
+
+    const switchPlayerTurn = () => {
+        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    }
+
+    const getActivePlayer = () => activePlayer;
+
+    const printCurrentRound = () => {
+        gameboard.printBoard();
+        console.log(`${activePlayer.name}'s turn.`);
+    }
+
+    const playRound = (row, column) => {
+        console.log(`${activePlayer.name}'s mark into row ${row} and column ${column}`);
+        let allowedMove = gameboard.markCell(row, column, getActivePlayer().mark);
+
+        if (allowedMove) {
+            switchPlayerTurn();
+        } 
+        printCurrentRound();
+    }
+
+    return { switchPlayerTurn, getActivePlayer, printCurrentRound, playRound };
 }
