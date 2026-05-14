@@ -44,3 +44,18 @@ function Cell() {
 
     return { setMark, getValue };
 }
+
+function Player(name) {
+    const player = {
+        name : name,
+        mark : null
+    }
+
+    const setMark = (mark) => {
+        player.mark = mark;
+    }
+
+    const getPlayer = () => player;
+
+    return { setMark, getPlayer };
+}
