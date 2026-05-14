@@ -45,13 +45,6 @@ function Cell() {
     return { setMark, getValue };
 }
 
-function Player(name, mark ) {
-    const player = {
-        name : name,
-        mark : mark
-    }
-
-    const getPlayer = () => player;
-
-    return { getPlayer };
+function Player(name, mark) {
+    return { name, mark };
 }
