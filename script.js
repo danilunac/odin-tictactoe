@@ -50,16 +50,11 @@ function Player(name, mark) {
     return { name, mark };
 }
 
-function GameController() {
-    const playerOne = Player('Dani', 'X');
-    const playerTwo = Player('Paola', 'O');
-
-    const players = [playerOne, playerTwo];
-
-    let activePlayer = players[0];
+function GameController(playerOne, playerTwo) {
+    let activePlayer = playerOne;
 
     const switchPlayerTurn = () => {
-        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+        activePlayer = activePlayer === playerOne ? playerTwo : playerOne;
     }
 
     const getActivePlayer = () => activePlayer;
