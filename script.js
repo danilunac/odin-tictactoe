@@ -160,23 +160,69 @@ function GameController(playerOne, playerTwo) {
     return { switchPlayerTurn, getActivePlayer, getGameOver, getHasTie, printCurrentRound, checkWinner, playRound };
 }
 
-        if (allowedMove) {
-            console.log(`${activePlayer.name}'s mark into row ${row} and column ${column}`);
-            const hasWinner = checkWinner(gameboard.getBoard(), getActivePlayer());
-            if (!hasWinner) {
-                switchPlayerTurn();
+function ScreenController() {
+    const player1 = Player('Dani', 'X');
+    const player2 = Player('Eleazar', 'O');
+    const game = GameController(player1, player2);
+    const gameStatusDiv = document.querySelector('.game-status');
+    const boardDiv = document.querySelector('.board');
+
+    const updateScreen = () => {
+        const gameOver = game.getGameOver();
+
+        // Get the current board state and active player
+        const board = gameboard.getBoard();
+        const activePlayer = game.getActivePlayer();
+
+        // Clear the board
+        boardDiv.textContent = '';
+
+        if (!gameOver) {
+            const hasTie = game.getHasTie();
+            if (hasTie) {
+                gameStatusDiv.textContent = 'It\'s a tie!';
+            } else {
+                gameStatusDiv.textContent = `${activePlayer.name}'s turn`;
             }
+        } else {
+            gameStatusDiv.textContent = `${activePlayer.name} wins!`;
         }
+        
+        // Render board squares
+        board.forEach((row, rowIndex) => {
+            row.forEach((cell, columnIndex) => {
+                const cellButton = document.createElement('button');
+                cellButton.classList.add('cell');
+                cellButton.dataset.row = rowIndex;
+                cellButton.dataset.column = columnIndex;
+                cellButton.textContent = cell.getValue();
+                boardDiv.append(cellButton);
+            })
+        })
+    };
 
-        printCurrentRound();
+    // Add event listener for the board
+    function clickHanderBoard(e) {
+        const selectedRow = e.target.dataset.row;
+        const selectedColumn = e.target.dataset.column;
+
+        if (!selectedRow && !selectedColumn) return;
+
+        game.playRound(selectedRow, selectedColumn);
+
+        updateScreen();
     }
+    boardDiv.addEventListener('click', clickHanderBoard);
 
-    return { switchPlayerTurn, getActivePlayer, printCurrentRound, playRound };
+    // Initial render
+    updateScreen();
 }
 
-const player1 = Player('Dani', 'X');
-const player2 = Player('Paola', 'O');
-const game = GameController(player1, player2);
+ScreenController();
+
+// const player1 = Player('Dani', 'X');
+// const player2 = Player('Paola', 'O');
+// const game = GameController(player1, player2);
 // game.playRound(0, 0);
 // game.playRound(1, 1);
 // game.playRound(1, 0);
@@ -187,13 +233,13 @@ const game = GameController(player1, player2);
 // game.playRound(2, 1);
 // game.playRound(2, 2);
 
-game.playRound(0, 0);
-game.playRound(1, 0);
-game.playRound(1, 1);
-game.playRound(0, 1);
-game.playRound(0, 1);
-game.playRound(2, 2);
-game.playRound(2, 0);
+// game.playRound(0, 0);
+// game.playRound(1, 0);
+// game.playRound(1, 1);
+// game.playRound(0, 1);
+// game.playRound(0, 1);
+// game.playRound(2, 2);
+// game.playRound(2, 0);
 
 // game.playRound(0, 2);
 // game.playRound(2, 1);
