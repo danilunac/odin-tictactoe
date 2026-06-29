@@ -38,7 +38,7 @@ const gameboard = (function () {
             console.log(boardWithCellValues);
         };
         
-        return { getBoard, markCell, resetCell, printBoard };
+        return { getBoard, markCell, resetBoard, printBoard };
     }
 
     return Gameboard();
