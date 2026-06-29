@@ -23,6 +23,14 @@ const gameboard = (function () {
             return true;
         };
 
+        const resetBoard = () => {
+            board.forEach(row => {
+                row.forEach(cell => {
+                    cell.setNull();
+                })
+            })
+        };
+
         const printBoard = () => {
             const boardWithCellValues = board.map((row) =>
                 row.map((cell) => cell.getValue())
@@ -30,7 +38,7 @@ const gameboard = (function () {
             console.log(boardWithCellValues);
         };
         
-        return { getBoard, markCell, printBoard };
+        return { getBoard, markCell, resetCell, printBoard };
     }
 
     return Gameboard();
@@ -44,9 +52,13 @@ function Cell() {
         value = player;
     }
 
+    const setNull = () => {
+        value = null;
+    }
+
     const getValue = () => value;
 
-    return { setMark, getValue };
+    return { setMark, setNull, getValue };
 }
 
 function Player(name, mark) {
