@@ -55,12 +55,18 @@ function Player(name, mark) {
 
 function GameController(playerOne, playerTwo) {
     let activePlayer = playerOne;
+    let gameOver = false;
+    let hasTie = false;
 
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === playerOne ? playerTwo : playerOne;
     }
 
     const getActivePlayer = () => activePlayer;
+
+    const getGameOver = () => gameOver;
+
+    const getHasTie = () => hasTie;
 
     const printCurrentRound = () => {
         gameboard.printBoard();
@@ -118,8 +124,41 @@ function GameController(playerOne, playerTwo) {
         return false;
     };
 
+    function checkEmptyCells() {
+        const boardMarks = gameboard.getBoard().map((row) =>
+            row.map((cell) => cell.getValue())
+        );
+
+        return boardMarks.some(row => 
+            row.some(cell => cell === null)
+        );
+    }
+
     const playRound = (row, column) => {
-        const allowedMove = gameboard.markCell(row, column, getActivePlayer().mark);
+        if (!gameOver) {
+            const allowedMove = gameboard.markCell(row, column, getActivePlayer().mark);
+
+            if (allowedMove) {
+                console.log(`${activePlayer.name}'s mark into row ${row} and column ${column}`);
+                const hasWinner = checkWinner(gameboard.getBoard(), getActivePlayer());
+                if (hasWinner) {
+                    gameOver = true;
+                    return true;
+                } else {
+                    const emptyCells = checkEmptyCells();
+                    if (emptyCells) {
+                        switchPlayerTurn();
+                    } else {
+                        hasTie = true;
+                    }
+                }
+            }
+        }
+        printCurrentRound();
+    }
+    
+    return { switchPlayerTurn, getActivePlayer, getGameOver, getHasTie, printCurrentRound, checkWinner, playRound };
+}
 
         if (allowedMove) {
             console.log(`${activePlayer.name}'s mark into row ${row} and column ${column}`);
