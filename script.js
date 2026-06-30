@@ -37,7 +37,7 @@ const gameboard = (function () {
             );
             console.log(boardWithCellValues);
         };
-        
+
         return { getBoard, markCell, resetBoard, printBoard };
     }
 
@@ -86,7 +86,7 @@ function GameController(playerOne, playerTwo) {
     }
 
     const checkWinner = (board, player) => {
-        // Convert Cell objects into a board of marks        
+        // Convert Cell objects into a board of marks`
         const boardMarks = board.map((row) =>
             row.map((cell) => cell.getValue())
         );
@@ -104,7 +104,7 @@ function GameController(playerOne, playerTwo) {
             boardMarks[1][1],
             boardMarks[2][2]
         ];
-        
+
         const antiDiagonal = [
             boardMarks[0][2],
             boardMarks[1][1],
@@ -115,8 +115,8 @@ function GameController(playerOne, playerTwo) {
             if (boardMarks[i].every((cell) => cell === player.mark)) {
                 console.log(`${player.name} WIN whit ROW!`);
                 return true;
-            } 
-            
+            }
+
             if (createColumn(i).every((cell) => cell === player.mark)) {
                 console.log(`${player.name} WIN with COLUMN!`);
                 return true;
@@ -141,7 +141,7 @@ function GameController(playerOne, playerTwo) {
             row.map((cell) => cell.getValue())
         );
 
-        return boardMarks.some(row => 
+        return boardMarks.some(row =>
             row.some(cell => cell === null)
         );
     }
@@ -175,16 +175,16 @@ function GameController(playerOne, playerTwo) {
         gameOver = false;
         hasTie = false;
     }
-    
-    return { 
-        switchPlayerTurn, 
-        getActivePlayer, 
-        getGameOver, 
-        getHasTie, 
-        printCurrentRound, 
-        checkWinner, 
-        playRound, 
-        resetGame 
+
+    return {
+        switchPlayerTurn,
+        getActivePlayer,
+        getGameOver,
+        getHasTie,
+        printCurrentRound,
+        checkWinner,
+        playRound,
+        resetGame
     };
 }
 
@@ -192,6 +192,8 @@ function ScreenController() {
     const player1 = Player('Dani', 'X');
     const player2 = Player('Eleazar', 'O');
     const game = GameController(player1, player2);
+
+    const resetButton = document.querySelector('.reset');
     const gameStatusDiv = document.querySelector('.game-status');
     const boardDiv = document.querySelector('.board');
 
@@ -215,7 +217,7 @@ function ScreenController() {
         } else {
             gameStatusDiv.textContent = `${activePlayer.name} wins!`;
         }
-        
+
         // Render board squares
         board.forEach((row, rowIndex) => {
             row.forEach((cell, columnIndex) => {
@@ -230,7 +232,7 @@ function ScreenController() {
     };
 
     // Add event listener for the board
-    function clickHanderBoard(e) {
+    function clickHandlerBoard(e) {
         const selectedRow = e.target.dataset.row;
         const selectedColumn = e.target.dataset.column;
 
@@ -240,38 +242,15 @@ function ScreenController() {
 
         updateScreen();
     }
-    boardDiv.addEventListener('click', clickHanderBoard);
+    boardDiv.addEventListener('click', clickHandlerBoard);
+
+    resetButton.addEventListener('click', () => {
+        game.resetGame();
+        updateScreen();
+    })
 
     // Initial render
     updateScreen();
 }
 
 ScreenController();
-
-// const player1 = Player('Dani', 'X');
-// const player2 = Player('Paola', 'O');
-// const game = GameController(player1, player2);
-// game.playRound(0, 0);
-// game.playRound(1, 1);
-// game.playRound(1, 0);
-// game.playRound(0, 1);
-// game.playRound(0, 2);
-// game.playRound(1, 2);
-// game.playRound(2, 0);
-// game.playRound(2, 1);
-// game.playRound(2, 2);
-
-// game.playRound(0, 0);
-// game.playRound(1, 0);
-// game.playRound(1, 1);
-// game.playRound(0, 1);
-// game.playRound(0, 1);
-// game.playRound(2, 2);
-// game.playRound(2, 0);
-
-// game.playRound(0, 2);
-// game.playRound(2, 1);
-// game.playRound(1, 1);
-// game.playRound(0, 1);
-// game.playRound(2, 0);
-
