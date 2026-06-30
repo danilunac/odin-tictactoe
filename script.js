@@ -168,8 +168,24 @@ function GameController(playerOne, playerTwo) {
         }
         printCurrentRound();
     }
+
+    function resetGame() {
+        gameboard.resetBoard();
+        activePlayer = playerOne;
+        gameOver = false;
+        hasTie = false;
+    }
     
-    return { switchPlayerTurn, getActivePlayer, getGameOver, getHasTie, printCurrentRound, checkWinner, playRound };
+    return { 
+        switchPlayerTurn, 
+        getActivePlayer, 
+        getGameOver, 
+        getHasTie, 
+        printCurrentRound, 
+        checkWinner, 
+        playRound, 
+        resetGame 
+    };
 }
 
 function ScreenController() {
